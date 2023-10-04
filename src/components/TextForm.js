@@ -19,9 +19,8 @@ export default function TextForm(props) {
     }
 
     const handleCopy = () => {
-        let text = document.getElementById("floatingTextarea2");
-        text.select();
-        navigator.clipboard.writeText(text.value);
+        navigator.clipboard.writeText(text);
+        document.getSelection().removeAllRanges();
         props.showAlert("success", "Text Copied to Clipboard")
     }
 
@@ -31,9 +30,9 @@ export default function TextForm(props) {
         props.showAlert("success", "Extra Space Removed")
       }
 
-    const toggleText = () => {
+    const handleToggle = () => {
         let text_ip = document.getElementById('text_input');
-        if (text_ip.style.display === "none" && text.length !== 0) {
+        if (text_ip.style.display === "none") {
             text_ip.style.display = 'block';
         }
         else {
@@ -41,12 +40,12 @@ export default function TextForm(props) {
         }
     }
 
-    const clearText = () => {
+    const handleClear = () => {
         setText('');
         props.showAlert("success", "Text Cleared")
     }
 
-    const backspace = ()=> {
+    const handleBackspace = ()=> {
         setText(text.slice(0,-1));
     }
 
@@ -81,22 +80,22 @@ export default function TextForm(props) {
     let requiredTime = timeCalculation();
 
     return (
-        <div className='container my-5'>
+        <div className='container mb-3'>
             <h1 className="card-title text-center">{props.heading}</h1>
             <div className={`form-floating m-auto my-4 text-dark`}>
                 <textarea className={`form-control bg-${props.theme}-subtle`} placeholder="Leave a comment here" id="floatingTextarea2" name="input" value={text} onChange={handleOnChange} style={{ height: "200px" }}></textarea>
                 <label htmlFor="floatingTextarea2">Enter Your Text Here</label>
-                <button className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2`} onClick={backspace}>
+                <button disabled={text.length===0} className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2`} onClick={handleBackspace}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-backspace-fill" viewBox="0 0 16 16">
                         <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z" />
                     </svg>
                 </button>
-                <button className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={clearText}>Clear Text</button>
-                <button className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleCopy}>Copy Text</button>
-                <button className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleExtraSpace}>Remove Extra Space</button>
-                <button className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleUpClick}>Convert to Uppercase</button>
-                <button className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleLowClick}>Convert to Lowercase</button>
-                <button className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={toggleText}>Toggle Preview</button>
+                <button disabled={text.length===0} className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleClear}>Clear Text</button>
+                <button disabled={text.length===0} className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleCopy}>Copy Text</button>
+                <button disabled={text.length===0} className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleExtraSpace}>Remove Extra Space</button>
+                <button disabled={text.length===0} className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleUpClick}>Convert to Uppercase</button>
+                <button disabled={text.length===0} className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleLowClick}>Convert to Lowercase</button>
+                <button disabled={text.length===0} className={`btn btn-outline-${props.theme==='light'?'dark':'light'} mt-2 ms-3`} onClick={handleToggle}>Toggle Preview</button>
             </div>
             <div className="container">
                 <h4>Your text summary</h4>
@@ -108,7 +107,7 @@ export default function TextForm(props) {
             <div className="container mt-3" id='text_input' style={{ display: 'none' }}>
                 <h4>Preview</h4>
                 <p className="card-text" style={{ textAlign: "justify" }}>
-                    {text}
+                    {text.length===0?'Nothing to preview!':text}
                 </p>
             </div>
         </div>

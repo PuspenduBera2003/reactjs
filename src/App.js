@@ -41,14 +41,12 @@ function App() {
     <>
       <BrowserRouter>
         <Navbar title="Home" about="About" theme={theme} toggleTheme={toggleTheme} />
+        <Alert alert={alert} />
           <Routes>
             <Route exact path='/' element={< TextForm heading="Enter your text below to analyze it" theme={theme} showAlert={showAlert}/>}></Route>
             <Route exact path='/about' element={< About theme={theme}/>}></Route>
           </Routes>
-        <Alert alert={alert} />
       </BrowserRouter>
-      {/* <TextForm  /> */}
-      {/* <About  /> */}
     </>
   );
 }

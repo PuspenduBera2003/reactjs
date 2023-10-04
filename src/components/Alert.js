@@ -6,8 +6,10 @@ function Alert(props) {
         return capitalized_word;
     }
     return (
-        props.alert && <div className={`alert alert-${props.alert.type} text-${props.alert.type} w-50 m-auto mt-2 text-center`} role="alert">
-            <strong>{alertType(props.alert.type)} : </strong>{props.alert.message}
+        <div className='mt-2' style={{height:'60px'}}>
+            {props.alert && <div className={`alert alert-${props.alert.type} text-${props.alert.type} w-50 m-auto text-center`} role="alert">
+                <strong>{alertType(props.alert.type)} : </strong>{props.alert.message}
+            </div>}
         </div>
     )
 }
